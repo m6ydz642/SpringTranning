@@ -45,8 +45,29 @@
 		  
 		  </property>
 	
+	<!-- mapper의 정보를 연결 (SQL구문)-->
+	<property name="mapperLocations" value="classpath:mappers/**/*.Mapper.xml" ></property>
+	
+	
+	
 	</bean>
 	
+	<!-- 
+	SQLSession 인터페이스를 구현한 객체
+	SqlSessionTemplate 객체 생성 
+	(디비연결, 자원해제 처리 객체)-mybatis-spring 라이브러리안에 포함 
+	
+	-->
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory">
+		
+		</constructor-arg>
+	
+	</bean>
+	
+	<!-- root-context파일과 com.itwillbs.persistence 패키지를 연결 스프링에 등록  -->
+	<context:component-scan base-package="com.itwillbs.persistence" />
 	
 </beans>
 
