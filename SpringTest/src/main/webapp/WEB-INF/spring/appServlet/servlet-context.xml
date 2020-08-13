@@ -18,8 +18,8 @@
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<!--  컨트롤러가 해당 뷰페이지를 쉽게 찾아가도록 처리 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="prefix" value="/WEB-INF/views/" /> <!-- 얘가 view페이지로 이동 시켜주는 세팅임  -->
+		<beans:property name="suffix" value=".jsp" /> <!-- 알아서 *.jsp페이지로 가넹? -->
 	</beans:bean>
 	
 	<!-- 해당 패키지의 내용을 읽어서 처리 -->

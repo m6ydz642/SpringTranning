@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -14,7 +16,13 @@ import com.itwillbs.persistence.MemberDAO;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 
+
 public class MemberDAOTest {
+	
+
+	private static final Logger logger = LoggerFactory.getLogger(MemberDAOTest.class);
+	
+	
 	// 컨트롤러/뷰에서 호출 역할
 	
 	
@@ -30,8 +38,8 @@ public class MemberDAOTest {
 		System.out.println("DI를 사용해서 MemberDAO생성 완료");
 		
 		System.out.println("DAO동작 호출");
-		String value = mdao.getTime();
-		System.out.println("결과 : " + value);
+	//	String value = mdao.getTime();
+		// System.out.println("결과 : " + value);
 		
 		System.out.println("DAO 처리 완료");
 	}
@@ -51,7 +59,26 @@ public class MemberDAOTest {
 		
 		System.out.println("회원 객체 생성 완료");
 		System.out.println("dao객체 사용해서 회원가입 메서드 호출");
-		mdao.insertMember(kim);
+		// mdao.insertMember(kim);
+		
+	}
+	// @Test
+	public void getMember() throws Exception {
+		System.out.println("@@@@ 회원 정보 호출 실행 @@@@");
+		MemberVO vo = mdao.getMember("1234");
+		System.out.println("@@@@ DAO호출");
+	}
+	
+	@Test
+	public void getMemberWithIdPw() throws Exception{
+		
+		logger.info("@@@ ID, PW사용 본인정보 호출");
+		logger.info("@@@ TEST : DAO객체 사용 접근 (의존 주입) ");
+		logger.info("DAO안에 있는 처리 메서드 호출");
+		
+		MemberVO vo = mdao.getMemberWithIdPw("1234", "1234"); // 호출
+		logger.info("@@@@ test:");
+		logger.info("MemberDAOTest -> vo내용:" + vo);
 		
 	}
 	

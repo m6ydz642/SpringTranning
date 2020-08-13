@@ -9,18 +9,39 @@
 
 <mapper namespace="com.itwillbs.mapper.MemberMapper">
 
-<!-- gettime 아이디 값을 통해서 해당 쿼리를 실행
-결과값을 String 타입으로 리턴
+	<!-- gettime 아이디 값을 통해서 해당 쿼리를 실행 결과값을 String 타입으로 리턴 -->
+	<select id="getTime" resultType="string">
+		select now()
+	</select>
 
- -->
-<select id="getTime" resultType="string">
-	select now()
-</select>
+	<!-- 회원가입 처리 SQL -->
+	<insert id="insertMember">
+		insert into tbl_member(userid, userpw, username,email)
+		values(#{userid}, #{userpw}, #{username}, #{email} )
+	</insert>
 
-<!-- 회원가입 처리 SQL -->
-<insert id="insertMember">
-	insert into tbl_member(userid, userpw, username,email) 
-	values(#{userid}, #{userpw}, #{username}, #{email} )
-</insert>
+	<!-- ID에 해당하는 회원정보 검색 SQL -->
+	<select id="getMember" resultType="com.itwillbs.domain.MemberVO">
+		select * 
+		from tbl_member
+		where userid = #{userid}
+	</select>
+	
+	
+	<!-- ID,PW 정보를 확인해서 본인정보 호출 SQL -->
+	<select id="getMemberIdPw" resultType="com.itwillbs.domain.MemberVO">
+		select *
+		from tbl_member
+		where userid = #{userid} and userpw = #{userpw}
+	</select>
+	
+	<!-- #{	} 
+	-	get(), set() 역활 
+	- 	전달 되는 파라미터가 하나인 경우 그대로 처리 (기본형, 문자열)
+	-	PreparedStatement 객체 역활을 처리
+	
+	
+	-->
+
 
 </mapper>

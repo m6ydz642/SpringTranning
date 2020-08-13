@@ -49,7 +49,7 @@ public class MemberVO {
 	
 	@Override
 	public String toString() {
-		return "MemberVO [userid=" + userid + ", userpw=" + userpw + ", username=" + username + ", email=" + email
+		return "투스트링 메서드 호출 MemberVO [userid=" + userid + ", userpw=" + userpw + ", username=" + username + ", email=" + email
 				+ ", regTimestamp=" + regTimestamp + ", updatedate=" + updatedate + ", toString()=" + super.toString()
 				+ "]";
 	}
