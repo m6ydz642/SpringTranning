@@ -1,12 +1,12 @@
 package com.itwillbs.test;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -65,7 +65,7 @@ public class MemberController {
 	// 회원 가입 처리 동작 (POST)
 	@RequestMapping(value="/insert", method = RequestMethod.POST)
 	
-	public void insertPost(MemberVO vo) throws Exception {
+	public String  insertPost(MemberVO vo) throws Exception { // 가입후 리다이렉트
 
 		
 		// 메서드 전달 인자를 사용해서 페이지 이동시 정보를 가져올 수 있음
@@ -82,10 +82,127 @@ public class MemberController {
 		service.insertMember(vo); // insert 
 		logger.info("회원가입 완료!");
 		
-		
+		// 페이지 이동 (로그인 페이지-> 컨트롤러 -> 뷰)
+		// WEB-INF/views/member/login.jsp
+		return "redirect:/member/login";
 		
 	}
 	
+	// 로그인 처리 (GET) 메서드 
+	// http://localhost:6060/test/member/login
+	@RequestMapping(value="/login", method = RequestMethod.GET)
+	public String loginGET() throws Exception{
+		logger.info("loginGET() 실행");
+		logger.info("view 페이지로 연결(member/login.jsp");
+		logger.info("member/login get -> /member/login.jsp이동");
+		return "/member/login";
+		
+	}
 	
+	// http://localhost:6060/test/member/login
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public String loginPOST(MemberVO vo, HttpSession session) throws Exception{
+		logger.info("loginPOST() 실행");
+		logger.info("view 페이지로 연결(member/main.jsp");
+		logger.info("member/login get -> /member/main.jsp이동");
+		// 1) 아이디, 비밀번호 저장
+		// 2) 로그인 여부 판별
+		
+		// 3) 로그인시 - 아이디값 (세션) -> main.jsp이동
+		// 로그인 실패 - /test/member/login 이동
+		MemberVO DBvo = service.loginCheck(vo);
+		
+		logger.info("전달정보 : " + DBvo);
+		
+		
+		// 로그인 실패
+		if(DBvo == null) {
+			return "redirect:/test/member/login";
+		}
+		
+		// 로그인 성공
+		// 세션객체 사용(login.jsp(get) 페이지에서 post방식으로 올때 내장객체를 가지고 온다.
+		session.setAttribute("userid", DBvo.getUserid());
+		
+		return "redirect:/member/main";
+		
+	}
+	
+	// 메인페이지 (/member/main(get))
+	
+	@RequestMapping(value="/main", method = RequestMethod.GET)
+	public String mainGET() throws Exception {
+		logger.info("메인페이지 도착");
+		logger.info("/member/main (get) -> /member/main.jsp");
+		return "/member/main";
+	}
+	
+	// 로그아웃 (/member/logout)
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String LogoutGET(HttpSession session) throws Exception {
+		logger.info("로그아웃 페이지");
+		logger.info("/member/logout get -> /member/main 이동");
+		
+		// 세션값을 초기화 
+		session.invalidate(); // 초기화
+		
+		// main 페이지로 이동
 
+		return "redirect:/member/main";
+	}
+	
+	// 회원정보 보기 /member/info
+	@RequestMapping(value="/info", method = RequestMethod.GET)
+	public String infoGET(HttpSession session, Model model) throws Exception {
+		
+		logger.info("/member/info get-> /member/info.jsp이동");
+		
+		// 가져온 회원정보를 저장해서 해당 jsp페이지로 이동
+		// (/member/info.jsp)
+		
+		// 세션값 (id)가져오기
+		String id = (String)session.getAttribute("userid");
+		
+		// 회원정보 가져오기 (service -> DAO -> mysql)
+		MemberVO vo = service.getMember(id);
+		logger.info("찾아온 회원 정보 : " + vo);
+
+		// String id = (String)session.getAttribute("userid");
+		// mdodel2 객체 사용 (컨트롤러 -> 뷰 이동시 정보저장 공간)
+		model.addAttribute("memberVO", vo);
+		
+		// service.getMember(id);
+		
+		return "/member/info";
+	}
+	
+	
+// 회원정보 수정
+	@RequestMapping(value="/update", method = RequestMethod.GET)
+	public String UpdateGET(HttpSession session, Model model) throws Exception {
+		
+		logger.info("updateGET() 호출");
+		logger.info("/member/update get-> /member/update.jsp 이동");
+		
+		// 세션 ID값 처리
+		String id = (String) session.getAttribute("userid");
+		// 서비스 -> DAO -> DB
+		// 회원정보 모두를 가져오는 동작
+		MemberVO vo = service.getMember(id);
+		
+		// 회원 정보를 Model 객체에 담아서 view페이지로 전달
+		model.addAttribute("memberVO",vo);
+		
+		// 페이지이동 (void)
+		// /member/update.jsp 페이지 이동
+		
+		
+
+		return "/member/update";
+	}
+
+	
+	
+	
 }

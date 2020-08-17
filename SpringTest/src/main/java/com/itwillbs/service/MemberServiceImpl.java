@@ -39,6 +39,48 @@ public class MemberServiceImpl implements MemberService{
 	logger.info("멤버 서비스vo실행 완료");
 	
 	}
+
+
+
+
+
+
+	@Override
+	public MemberVO loginCheck(MemberVO vo) {
+		
+		logger.info("아이디 비번찾기 메서드 실행 @@@Service : controller에서 로그인 체크 호출 ");
+		logger.info("호출시 로그인 체크 정보를 가지고 옴");
+		
+		// 로그인 체크 기능이 있는 DAO객체로 이동
+		MemberVO DBvo =  mdao.getMemberWithIdPw(vo.getUserid(), vo.getUserpw());
+		
+		logger.info("서비스 DBvo내용" + DBvo);
+		logger.info("로그인 후 컨트롤러 페이지로 이동 " + DBvo);
+		return DBvo;
+	}
+
+
+
+
+
+
+	@Override
+	public MemberVO getMember(String id) {
+		logger.info("controller -> service ");
+		logger.info("회원정보를 가지고 와서");
+		MemberVO vo = mdao.getMember(id);
+		logger.info("dao처리완료, 결과 리턴 완료");
+		logger.info("controller (/member/info) 이동");
+		
+		return null;
+	}
+
+
+
+
+
+
+
 	
 	
 
