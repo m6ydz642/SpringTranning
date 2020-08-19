@@ -60,6 +60,10 @@
 	
 	<h3> <a href="/member/update"> 회원 정보 수정 (update) </a> </h3>
 	
+		<hr>
+	
+	<h3> <a href="/member/delete"> 회원 정보 삭제 (delete) </a> </h3>
+	
 	
 	
 </body>

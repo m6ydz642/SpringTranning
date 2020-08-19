@@ -104,5 +104,22 @@ public class MemberDAOImpl implements MemberDAO{
 		return vo;
 	}
 
+
+
+
+	@Override
+	public void updateMember(MemberVO vo) {
+		logger.info("서비스에서 해당 동작을 호출");
+		logger.info("수정할 정보 가져옴" + vo);
+		logger.info("DAO객체를 호출해서 동작처리");
+		
+		// sqlSession (주입) 사용
+		sqlSession.update(namespace + ".", vo);
+		
+		
+		
+		
+	}
+
 	
 }

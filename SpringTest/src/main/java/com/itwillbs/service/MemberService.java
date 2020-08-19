@@ -11,5 +11,7 @@ public interface MemberService {
 	
 	public MemberVO getMember(String id); // 회원정보를 가져오는 처리 (본인)
 	
+	public void updateMember (MemberVO vo); // 회원정보 수정 처리
+	
 	
 }

@@ -72,9 +72,27 @@ public class MemberServiceImpl implements MemberService{
 		logger.info("dao처리완료, 결과 리턴 완료");
 		logger.info("controller (/member/info) 이동");
 		
-		return null;
+		return vo;
 	}
 
+
+
+
+
+@Override
+	public void updateMember(MemberVO vo) {
+		logger.info("컨트롤러에서 수정동작 처리 호출");
+		logger.info("수정할 정보 가져옴" + vo);
+		logger.info("DAO객체를 호출해서 동작처리");
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 
 
 

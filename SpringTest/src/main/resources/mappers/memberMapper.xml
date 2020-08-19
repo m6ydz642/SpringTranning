@@ -44,4 +44,12 @@
 	-->
 
 
+	<!-- 회원정보를 받아와서 수정 -->
+	<update id="updateMember">
+	update tbl_member set user=#{username},email=#{email} where userid=#{userid} and userpw=#{userpw}
+	
+	</update>
+
+
+
 </mapper>

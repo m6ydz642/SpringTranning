@@ -179,7 +179,7 @@ public class MemberController {
 	
 	
 // 회원정보 수정
-	@RequestMapping(value="/update", method = RequestMethod.GET)
+	@RequestMapping(value="/member/update", method = RequestMethod.GET)
 	public String UpdateGET(HttpSession session, Model model) throws Exception {
 		
 		logger.info("updateGET() 호출");
@@ -203,6 +203,37 @@ public class MemberController {
 	}
 
 	
+	
+	@RequestMapping(value="/member/update.jsp", method = RequestMethod.GET)
+	public String UpdatePOST(MemberVO vo) throws Exception {
+		
+		logger.info("updatePOST() 호출");
+		/*/member/update.jsp 에서 입력받은 수정할 정보를 가져와서 
+		 * DB로 이동 (service -> DAO -> mapper -> Mysql) 
+		 * 수정 완료후 페이지 이동
+		 * 
+		 * */
+		logger.info("/member/update.jsp submit -> /member POST ");
+		logger.info("VO수정할 정보 " + vo);
+		
+		service.updateMember(vo);
+		logger.info("service 처리완료 (회원정보 수정완료");
+		
+		
+
+		return "";
+	}
+	
+	
+	// member/delete
+	//
+	@RequestMapping(value="/member/delete", method = RequestMethod.GET)
+	public String deleteGET() throws Exception {
+		
+		logger.info("deleteGET () 호출");
+		
+		return "/member/deleteForm";
+	}
 	
 	
 }
